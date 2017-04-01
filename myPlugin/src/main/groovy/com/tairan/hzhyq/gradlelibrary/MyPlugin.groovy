@@ -3,11 +3,16 @@ package com.tairan.hzhyq.gradlelibrary
 import org.gradle.api.Project
 import org.gradle.api.Plugin
 
-class MyPlugin implements Plugin<Project>{
+public class MyPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-            project.task("showInfo"){
-                println "showInfo task is executed !"
-            }
+        project.extensions.create('pluginExtension', PluginExtension)
+
+        project.extensions.create('custorm',CustormExtension)
+        project.task('myTask',type: MyTask)
     }
+}
+class CustormExtension{
+    def one ="one"
+    def two = "two"
 }

@@ -18,7 +18,14 @@ android {
         }
     }
 }
-
+custorm{
+    one='you are the one'
+    two='you are the two'
+}
+pluginExtension{
+    name='hzhyq'
+    value='vinci'
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
