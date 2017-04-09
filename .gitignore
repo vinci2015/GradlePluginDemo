@@ -1,9 +1,15 @@
 *.iml
 .gradle
+.idea
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+/keystore.properties
+buildsysterm/
+keystore.properties
+myPlugin/build/classes/main/com/tairan/hzhyq/gradlelibrary/MyExtension.class
+myPlugin/build/tmp/compileGroovy/
+outputapks/
+buildsysterm/vinciSign.jks
