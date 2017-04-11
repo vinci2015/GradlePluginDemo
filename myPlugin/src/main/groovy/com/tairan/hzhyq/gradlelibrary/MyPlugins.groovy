@@ -11,11 +11,16 @@ import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.TaskState
 
 
+
 public class MyPlugin implements Plugin<Project>,TaskExecutionListener {
     def Project rootProject
+    def destinationPath
+    def apkPath
+    def String nameFormat
     @Override
     void apply(Project project) {
         rootProject = project
+        rootProject.extensions.create('myExtra',MyExtension)
         project.gradle.addListener(this)
     }
 
@@ -30,29 +35,40 @@ public class MyPlugin implements Plugin<Project>,TaskExecutionListener {
     void afterExecute(Task task, TaskState taskState) {
         if(task.name == 'assembleRelease'){
             println "${task.name} end"
+            destinationPath = rootProject.myExtra.desPath
+            apkPath = rootProject.myExtra.apkPath
+            nameFormat = rootProject.myExtra.nameFormat
+            println "destination path : $destinationPath"
+            println "apk path : $apkPath"
             task.project.tasks.create('genChannelPackage'){
                     println '----------------------------generate channel packages-------------------------'
                     def channels = getChannels()
                     channels.each { channel ->
                         createNewPackage(channel)
                     }
-                    File file = new File('E:\\androidWorkspace\\GradlePluginDemo\\outputapks\\new')
+                    File file = new File("$destinationPath\\new")
                     assert file.exists()
                     file.deleteDir()
                     println '----------------------------generate end-------------------------------'
             }
-            println '---------------------------end-----------------------'
         }
     }
     def createNewPackage(name) {
         println "channel name : $name"
-        def outputPathm = 'E:\\androidWorkspace\\GradlePluginDemo\\outputapks'
+        def modefiedName = formatName(name)
+        println modefiedName
+        File mfile = new File("$destinationPath\\$modefiedName")
+        if(mfile.exists()){
+            println "exist"
+            println mfile.delete()
+        }
         try {
             println 'zip start'
-            FileTree tree = rootProject.fileTree("$outputPathm\\new")
+            FileTree tree = rootProject.fileTree("$destinationPath\\new")
             if (!tree.dir.exists()) {
-                ZipFile zipFile = new ZipFile("E:\\androidWorkspace\\GradlePluginDemo\\outputapks\\app-debug.apk")
-                zipFile.extractAll("$outputPathm\\new")
+                ZipFile zipFile = new ZipFile(apkPath)
+                println destinationPath
+                zipFile.extractAll("$destinationPath\\new")
             }
             File parent = tree.dir.listFiles(new FileFilter() {
                 @Override
@@ -63,7 +79,7 @@ public class MyPlugin implements Plugin<Project>,TaskExecutionListener {
             def parentPath = parent.getAbsolutePath()
             File file = new File("$parentPath\\pwchannel-$name")
             file.setText(file.name)
-            ZipFile zipFile1 = new ZipFile("E:\\androidWorkspace\\GradlePluginDemo\\outputapks\\app-channel_$name-release.apk")
+            ZipFile zipFile1 = new ZipFile("$destinationPath\\$modefiedName")
             ZipParameters zipParameters = new ZipParameters()
             zipParameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE)
             zipParameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL)
@@ -89,5 +105,16 @@ public class MyPlugin implements Plugin<Project>,TaskExecutionListener {
         }
         return properties.values()
     }
+    def read(String name){
+        def result = System.console().readLine("\n $name already exist ,press yes to cover it or input no to cancle")
+        return result
+    }
+    def formatName(String channel){
+        return nameFormat.replace("{channel}",channel)
+    }
 }
-
+public class MyExtension{
+    def desPath = 'E:\\outputapks'
+    def apkPath = ''
+    def String nameFormat = ''
+}

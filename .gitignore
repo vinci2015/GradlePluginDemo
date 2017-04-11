@@ -1,11 +1,14 @@
 *.iml
 .gradle
-/local.properties
 .idea
+/local.properties
 .DS_Store
 /build
 /captures
 .externalNativeBuild
-myPlugin/build/tmp/compileGroovy/
-/myPlugin/build
+/keystore.properties
+buildsysterm
+keystore.properties
+myPlugin/build
 outputapks
+
