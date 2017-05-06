@@ -10,7 +10,6 @@ import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.TaskState
 
-import java.nio.channels.Channel
 
 
 public class MyPlugin implements Plugin<Project>,TaskExecutionListener {

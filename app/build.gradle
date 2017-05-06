@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.tairan.hzhyq.myPlugin'
+apply plugin:'com.github.vinci.quick-channels'
+//apply plugin: 'com.tairan.hzhyq.myPlugin'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -37,10 +38,15 @@ android {
         }
     }
 }
-myExtra{
+/*myExtra{
     desPath = "E:\\androidWorkspace\\GradlePluginDemo\\outputapks"
     apkPath = "E:\\androidWorkspace\\GradlePluginDemo\\app\\build\\outputs\\apk\\app-release.apk"
     nameFormat = "app-channel-{channel}.apk"
+}*/
+channelExt{
+    desPath = "E:\\androidWorkspace\\GradlePluginDemo\\outputapks"
+    apkPath = "E:\\androidWorkspace\\GradlePluginDemo\\app\\build\\outputs\\apk\\app-release.apk"
+    nameFormat = "QuickChannel-channel-{channel}.apk"
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

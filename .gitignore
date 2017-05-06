@@ -9,7 +9,6 @@
 /keystore.properties
 buildsysterm/
 keystore.properties
-myPlugin/build/classes/main/com/tairan/hzhyq/gradlelibrary/MyExtension.class
-myPlugin/build/tmp/compileGroovy/
+myPlugin/build
 outputapks/
 buildsysterm/vinciSign.jks
